@@ -11,8 +11,8 @@ from multiprocessing.pool import ThreadPool
 
 #from errbot import CommandError
 #from errbot.flow import FlowExecutor, FlowRoot
-#from .backends.base import Backend, Room, Identifier, Message
-from .storage import StoreMixin
+from backends.base import Backend, Room, Identifier, Message
+from storage import StoreMixin
 #from .streaming import Tee
 #from .templating import tenv
 #from .utils import split_string_after

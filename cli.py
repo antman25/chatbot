@@ -29,7 +29,7 @@ def get_config(config_path):
 
 
 def main():
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.DEBUG)
     execution_dir = getcwd()
 
     # By default insert the execution path (useful to be able to execute Errbot from

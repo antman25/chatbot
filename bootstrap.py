@@ -3,7 +3,7 @@ import importlib
 import logging
 import sys
 
-#from core import ChatBot
+from core import ChatBot
 from storage.base import StoragePluginBase
 from logs import format_logs
 
@@ -73,7 +73,7 @@ def bot_config_defaults(config):
 '''
 
 
-def setup_bot(backend_name: str, logger, config, restore=None):# -> ChatBot:
+def setup_bot(backend_name: str, logger, config, restore=None) -> ChatBot:
     # from here the environment is supposed to be set (daemon / non daemon,
     # config.py in the python path )
 
