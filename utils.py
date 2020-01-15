@@ -10,12 +10,8 @@ import time
 from platform import system
 from functools import wraps
 
-
-from dulwich import porcelain
-
 log = logging.getLogger(__name__)
 
-ON_WINDOWS = system() == 'Windows'
 
 PLUGINS_SUBDIR = 'plugins'
 
@@ -195,24 +191,3 @@ def global_restart():
     os.execl(python, python, *sys.argv)
 
 
-def git_clone(url: str, path: str) -> None:
-    """
-    Clones a repository from git url to path
-    """
-    if not os.path.exists(path):
-        os.makedirs(path)
-    porcelain.clone(url, path)
-
-
-def git_pull(repo_path: str) -> None:
-    """
-    Does a git pull on a repository
-    """
-    porcelain.pull(repo_path)
-
-
-def git_tag_list(repo_path: str) -> List[str]:
-    """
-    Lists git tags on a cloned repo
-    """
-    porcelain.tag_list(repo_path)

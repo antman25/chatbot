@@ -8,25 +8,15 @@ from storage.base import StoragePluginBase
 from logs import format_logs
 from backend_plugin_manager import BackendPluginManager
 from plugin_manager import BotPluginManager
-
-
-
+from utils import PLUGINS_SUBDIR
 
 log = logging.getLogger(__name__)
 
 HERE = path.dirname(path.abspath(__file__))
+CORE_BACKENDS = path.join(HERE, 'backends')
 CORE_STORAGE = path.join(HERE, 'storage')
 
 def bot_config_defaults(config):
-    if not hasattr(config, 'ACCESS_CONTROLS_DEFAULT'):
-        config.ACCESS_CONTROLS_DEFAULT = {}
-    if not hasattr(config, 'ACCESS_CONTROLS'):
-        config.ACCESS_CONTROLS = {}
-    if not hasattr(config, 'BOT_PREFIX'):
-        config.BOT_PREFIX = '!'
-    if not hasattr(config, 'TEXT_COLOR_THEME'):
-        config.TEXT_COLOR_THEME = 'light'
-'''
     if not hasattr(config, 'ACCESS_CONTROLS_DEFAULT'):
         config.ACCESS_CONTROLS_DEFAULT = {}
     if not hasattr(config, 'ACCESS_CONTROLS'):
@@ -77,8 +67,6 @@ def bot_config_defaults(config):
         config.TEXT_COLOR_THEME = 'light'
     if not hasattr(config, 'BOT_ADMINS_NOTIFICATIONS'):
         config.BOT_ADMINS_NOTIFICATIONS = config.BOT_ADMINS
-'''
-
 
 def setup_bot(backend_name: str, logger, config, restore=None) -> ChatBot:
     # from here the environment is supposed to be set (daemon / non daemon,
@@ -104,6 +92,38 @@ def setup_bot(backend_name: str, logger, config, restore=None) -> ChatBot:
     botplugins_dir = path.join(config.BOT_DATA_DIR, PLUGINS_SUBDIR)
     if not path.exists(botplugins_dir):
         makedirs(botplugins_dir, mode=0o755)
+
+    # Extra backend is expected to be a list type, convert string to list.
+    extra_backend = getattr(config, 'BOT_EXTRA_BACKEND_DIR', [])
+    if isinstance(extra_backend, str):
+        extra_backend = [extra_backend]
+
+    backendpm = BackendPluginManager(config,
+                                     'chatbot.backends',
+                                     backend_name,
+                                     ChatBot,
+                                     CORE_BACKENDS,
+                                     extra_backend)
+
+    log.info(f'Found Backend plugin: %s' % backendpm.plugin_info.name)
+
+ 
+    try:
+        bot = backendpm.load_plugin()
+        botpm = BotPluginManager(storage_plugin,
+                                 config.BOT_EXTRA_PLUGIN_DIR,
+                                 config.AUTOINSTALL_DEPS,
+                                 getattr(config, 'CORE_PLUGINS', None),
+                                 lambda name, clazz: clazz(bot, name),
+                                 getattr(config, 'PLUGINS_CALLBACK_ORDER', (None, )))
+        bot.attach_storage_plugin(storage_plugin)
+        bot.attach_repo_manager(repo_manager)
+        bot.attach_plugin_manager(botpm)
+        bot.initialize_backend_storage()
+    except Exception:
+        log.exception("Unable to load or configure the backend.")
+        exit(-1)
+
 
 def bootstrap(bot_class, logger, config, restore=None):
     """

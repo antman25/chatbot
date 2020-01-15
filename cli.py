@@ -57,10 +57,10 @@ def main():
     if not access(config.BOT_DATA_DIR, W_OK):
         raise Exception(f'The data directory "{config.BOT_DATA_DIR}" should be writable for the bot.')
     restore = None
-
+    backend = config.BACKEND
     from bootstrap import bootstrap
     #import bootstrap
-    bootstrap("mattermost", root_logger, config, restore)
+    bootstrap(backend, root_logger, config, restore)
 
 if __name__ == "__main__":
     main()

@@ -1,7 +1,7 @@
 import logging
-from errbot.backends.base import Room, RoomDoesNotExistError, RoomError, UserDoesNotExistError
+from backends.base import Room, RoomDoesNotExistError, RoomError, UserDoesNotExistError
 from mattermostdriver.exceptions import NotEnoughPermissions, ResourceNotFound, InvalidOrMissingParameters
-from .mattermostRoomOccupant import MattermostRoomOccupant
+from mattermostRoomOccupant import MattermostRoomOccupant
 
 log = logging.getLogger('errbot.backends.mattermost.room')
 

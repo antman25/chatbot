@@ -3,21 +3,21 @@ import json
 import logging
 from functools import lru_cache
 
-from errbot.backends.base import (
+from backends.base import (
 	Message, Presence, ONLINE, AWAY, UserDoesNotExistError,
 	RoomDoesNotExistError, RoomOccupant,
 	Card)
-from errbot.core import ErrBot
-from errbot.rendering import md
-from errbot.utils import split_string_after
+from core import ChatBot
+#from rendering import md
+from utils import split_string_after
 from mattermostdriver import Driver
 from mattermostdriver.exceptions import (
 	InvalidOrMissingParameters, NotEnoughPermissions,
 	ContentTooLarge, FeatureDisabled, NoAccessTokenProvided)
 
-from src.mattermostPerson import MattermostPerson
-from src.mattermostRoom import MattermostRoom
-from src.mattermostRoomOccupant import MattermostRoomOccupant
+from mattermostPerson import MattermostPerson
+from mattermostRoom import MattermostRoom
+from mattermostRoomOccupant import MattermostRoomOccupant
 
 log = logging.getLogger('errbot.backends.mattermost')
 
@@ -39,7 +39,7 @@ COLORS = {
 }
 
 
-class MattermostBackend(ErrBot):
+class MattermostBackend(ChatBot):
 	def __init__(self, config):
 		super().__init__(config)
 		identity = config.BOT_IDENTITY

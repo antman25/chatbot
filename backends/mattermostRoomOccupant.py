@@ -1,6 +1,6 @@
 import logging
-from errbot.backends.base import RoomOccupant
-from .mattermostPerson import MattermostPerson
+from backends.base import RoomOccupant
+from mattermostPerson import MattermostPerson
 
 log = logging.getLogger('errbot.backends.mattermost.roomOccupant')
 

@@ -1,5 +1,5 @@
 import logging
-from errbot.backends.base import Person
+from backends.base import Person
 
 log = logging.getLogger('errbot.backends.mattermost.person')
 

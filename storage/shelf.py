@@ -5,7 +5,7 @@ import os
 
 import shutil
 
-from errbot.storage.base import StorageBase, StoragePluginBase
+from storage.base import StorageBase, StoragePluginBase
 
 log = logging.getLogger('errbot.storage.shelf')
 
