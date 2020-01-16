@@ -6,7 +6,9 @@ BOT_DATA_DIR = '/home/antman/projects/chatbot/data'
 
 BOT_LOG_FILE = BOT_DATA_DIR + '/chatbot.log'
 
-BOT_LOG_LEVEL = logging.INFO
+BOT_LOG_LEVEL = logging.DEBUG
+
+BOT_EXTRA_PLUGIN_DIR = None
 
 BACKEND = 'Mattermost'
 
@@ -35,5 +37,7 @@ BOT_IDENTITY = {
 }
 
 ACCESS_CONTROLS = {}
+
+CORE_PLUGINS = None
 
 TEXT_COLOR_THEME = 'light'

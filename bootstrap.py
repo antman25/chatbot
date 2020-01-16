@@ -6,6 +6,7 @@ import sys
 from core import ChatBot
 from storage.base import StoragePluginBase
 from logs import format_logs
+#from repo_manager import BotRepoManager
 from backend_plugin_manager import BackendPluginManager
 from plugin_manager import BotPluginManager
 from utils import PLUGINS_SUBDIR
@@ -117,12 +118,19 @@ def setup_bot(backend_name: str, logger, config, restore=None) -> ChatBot:
                                  lambda name, clazz: clazz(bot, name),
                                  getattr(config, 'PLUGINS_CALLBACK_ORDER', (None, )))
         bot.attach_storage_plugin(storage_plugin)
-        bot.attach_repo_manager(repo_manager)
         bot.attach_plugin_manager(botpm)
         bot.initialize_backend_storage()
+
+        #errors = bot.plugin_manager.update_plugin_places(repo_manager.get_all_repos_paths())
+        #if errors:
+        #    log.error('Some plugins failed to load:\n' + '\n'.join(errors.values()))
+        #    bot._plugin_errors_during_startup = "\n".join(errors.values())
+
+        return bot
     except Exception:
         log.exception("Unable to load or configure the backend.")
         exit(-1)
+
 
 
 def bootstrap(bot_class, logger, config, restore=None):
@@ -136,7 +144,7 @@ def bootstrap(bot_class, logger, config, restore=None):
     """
     bot = setup_bot(bot_class, logger, config, restore)
 
-    log.debug(f'Start serving commands from the {bot.mode} backend.')
+    log.debug('Start serving commands from the %s backend.' % bot.mode)
     bot.serve_forever()
 
 def get_storage_plugin(config):

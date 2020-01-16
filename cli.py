@@ -10,6 +10,9 @@ from platform import system
 
 from logs import root_logger
 
+import urllib3
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+
 log = logging.getLogger(__name__)
 
 def get_config(config_path):

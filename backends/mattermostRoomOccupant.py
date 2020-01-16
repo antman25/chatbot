@@ -13,7 +13,7 @@ class MattermostRoomOccupant(RoomOccupant, MattermostPerson):
 		super().__init__(client, userid, channelid)
 		self._teamid = teamid
 		# Importing inside __init__ to prevent a circular import, which is ugly
-		from .mattermostRoom import MattermostRoom
+		from mattermostRoom import MattermostRoom
 		self._room = MattermostRoom(channelid=channelid, teamid=teamid, bot=bot)
 
 	@property

@@ -8,7 +8,7 @@ from backends.base import (
 	RoomDoesNotExistError, RoomOccupant,
 	Card)
 from core import ChatBot
-#from rendering import md
+from rendering import md
 from utils import split_string_after
 from mattermostdriver import Driver
 from mattermostdriver.exceptions import (

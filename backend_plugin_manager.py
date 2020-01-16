@@ -47,7 +47,7 @@ class BackendPluginManager:
 
     def load_plugin(self) -> Any:
         plugin_path = self.plugin_info.location.parent
-        print ('path %s' % plugin_path)
+        #print ('path %s' % plugin_path)
         if plugin_path not in sys.path:
             # Cast pathlib.Path objects to string type for compatibility with sys.path
             sys.path.append(str(plugin_path))

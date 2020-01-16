@@ -252,9 +252,9 @@ class BotPluginManager(StoreMixin):
     def _load_plugins(self) -> Dict[Path, str]:
         feedback = {}
         for path in self.plugin_places:
-            self._load_plugins_generic(path, 'plug', 'errbot.plugins', BotPlugin,
+            self._load_plugins_generic(path, 'plug', 'plugins', BotPlugin,
                                        self.plugins, self.plugin_infos, feedback)
-            self._load_plugins_generic(path, 'flow', 'errbot.flows', BotFlow,
+            self._load_plugins_generic(path, 'flow', 'flows', BotFlow,
                                        self.flows, self.flow_infos, feedback)
         return feedback
 
